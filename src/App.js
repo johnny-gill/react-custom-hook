@@ -1,25 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import { useFetchUsers } from './hooks/useFetchUsers';
 
-function App() {
+export const App = () => {
+  const { userList, onClickFetchUser, isError, isLoading } = useFetchUsers();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <button onClick={onClickFetchUser}>사용자 정보 얻기</button>
+      {isError && <p style={{ color: 'red' }}>에러가 발생했습니다</p>}
+      {isLoading ? (
+        <p>데이터를 가져오고 있습니다</p>
+      ) : (
+        userList.map((user) => {
+          return (
+            <p>
+              {user.id}:{user.lastname} {user.firstname} ({user.age})
+            </p>
+          );
+        })
+      )}
     </div>
   );
-}
-
-export default App;
+};
